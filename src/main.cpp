@@ -10,27 +10,29 @@ struct Button
   bool pressed;
 };
 
-Button button1 = {27, 0, false};
+Button button1 = {14, 0, false};
 
-void IRAM_ATTR isr()
+IRAM_ATTR void isr()
 {
+  Serial.print("Button Clicked");
   button1.numberKeyPresses++;
   button1.pressed = true;
 }
 void setup()
 {
   Serial.begin(115200);
+  Serial.println("*** setup  ***");
   pinMode(LED1, OUTPUT);
   pinMode(LED_RED_1, OUTPUT);
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
+  // pinMode(BUTTON_PIN, INPUT_PULLUP);
 
   pinMode(button1.PIN, INPUT_PULLUP);
-  attachInterrupt(button1.PIN, isr, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(button1.PIN), isr, RISING);
 }
 void loop()
 {
   /*******************************************
-   *  Utilisation du delay classique
+   * Utilisation du delay classique
    *
   digitalWrite(LED1, HIGH);
   delay(500);
@@ -39,7 +41,7 @@ void loop()
   ********************************************/
 
   /*******************************************
-   *  Utilisation du delay classique
+   * Utilisation du delay classique
    *******************************************/
   digitalWrite(LED1, HIGH);
   delay_bis(500);
@@ -48,13 +50,18 @@ void loop()
 
   // button_events(BUTTON_PIN);
 
-  digitalWrite(LED_RED_1, LOW);
-  
+  /*******************************************
+   * Utilisation des interuptions
+   *******************************************/
   if (button1.pressed)
   {
     Serial.printf("Button has been pressed %u times\n", button1.numberKeyPresses);
     button1.pressed = false;
-
-    digitalWrite(LED_RED_1, HIGH);
   }
+
+  /*******************************************
+   * Utilisation du mode light sleep avec un
+   * timer pour le réveil (5econdes)
+   *******************************************/
+  light_sleep_mode(50000);
 }
