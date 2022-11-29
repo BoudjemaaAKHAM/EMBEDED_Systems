@@ -33,20 +33,19 @@ void loop()
 {
   /*******************************************
    * Utilisation du delay classique
-   *
-  digitalWrite(LED1, HIGH);
+   ********************************************/
+  /* digitalWrite(LED1, HIGH);
   delay(500);
   digitalWrite(LED1, LOW);
-  delay(500);
-  ********************************************/
+  delay(500); */
 
   /*******************************************
    * Utilisation du delay classique
    *******************************************/
-  digitalWrite(LED1, HIGH);
+  /* digitalWrite(LED1, HIGH);
   delay_bis(500);
   digitalWrite(LED1, LOW);
-  delay_bis(100);
+  delay_bis(100); */
 
   // button_events(BUTTON_PIN);
 
@@ -61,7 +60,14 @@ void loop()
 
   /*******************************************
    * Utilisation du mode light sleep avec un
-   * timer pour le réveil (5econdes)
+   * timer pour le réveil (5 secondes)
+   * et réveil externe par signal
    *******************************************/
-  light_sleep_mode(50000);
+  // light_sleep_mode_timer(5000000);
+  // light_sleep_mode_signal(GPIO_NUM_14);
+
+  /*******************************************
+   * Utilisation du mode deep sleep
+   *******************************************/
+  deep_sleep_mode();
 }
